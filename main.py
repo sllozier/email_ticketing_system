@@ -14,6 +14,7 @@ EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("EMAIL_PASSWORD")
 IMAP_SERVER = os.getenv("IMAP_SERVER")
 IMAP_PORT = int(os.getenv("IMAP_PORT"))
+SUPPORT_MAILBOX = os.getenv("SUPPORT_MAILBOX")
 
 # Zenhub credentials
 ZENHUB_API_KEY = os.getenv("ZENHUB_API_KEY")
@@ -28,7 +29,11 @@ GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 # Connect to the email server
 mail = imaplib.IMAP4_SSL(IMAP_SERVER, IMAP_PORT)
 mail.login(EMAIL, PASSWORD)
-mail.select("inbox")
+
+
+# Select the support mailbox
+mailbox = f"user/{SUPPORT_MAILBOX}" if SUPPORT_MAILBOX else "inbox"
+mail.select(mailbox)
 
 # Search for all emails
 status, messages = mail.search(None, "ALL")
